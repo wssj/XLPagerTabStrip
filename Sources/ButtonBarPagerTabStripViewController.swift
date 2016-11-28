@@ -354,6 +354,15 @@ open class ButtonBarPagerTabStripViewController: PagerTabStripViewController, Pa
                 stretchedCellWidths.append(cellWidth)
             }
             
+            //Quick fix for not filling available space
+            if settings.style.buttonBarItemsShouldFillAvailiableWidth {
+                let totalWidth: CGFloat = stretchedCellWidths.reduce(0.0, +)
+                let diff = self.view.bounds.width - totalWidth
+                if diff > 0 {
+                    stretchedCellWidths = stretchedCellWidths.map({ return $0 + diff / 4 })
+                }
+            }
+            
             return stretchedCellWidths
         }
     }
